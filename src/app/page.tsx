@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import Link from "next/link";
+import EditorPage from "./EditorPage";
 
 export const metadata: Metadata = {
   title: "Home",
@@ -8,10 +8,7 @@ export const metadata: Metadata = {
 
 const Home = () => {
   return (
-    <div>
-      <h1>Home</h1>
-      <Link href="/about">About</Link>
-    </div>
+      <EditorPage />
   );
 };
 
