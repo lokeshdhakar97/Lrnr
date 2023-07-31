@@ -1,3 +1,16 @@
 {
-  "extends": "next/core-web-vitals"
+  "root": true,
+  "extends": ["next/core-web-vitals", "eslint:recommended"],
+  "rules": {
+    "semi": ["error", "always"],
+    "no-var": "error",
+    "no-unused-vars": "warn",
+    "arrow-parens": ["error", "always"],
+    "func-style": ["error", "expression"],
+    "react-hooks/exhaustive-deps": "warn",
+    "no-console": "warn",
+    "no-undef": "error",
+    "prefer-const": "error",
+    "prefer-spread": "error"
+  }
 }
