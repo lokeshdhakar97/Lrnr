@@ -7,9 +7,7 @@ export const metadata: Metadata = {
 };
 
 const Home = () => {
-  return (
-      <EditorPage />
-  );
+  return <EditorPage />;
 };
 
 export default Home;
