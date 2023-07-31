@@ -1,6 +1,18 @@
 "use client";
-import { Center, Flex, HStack, Icon, Input, Text } from "@chakra-ui/react";
-import Image from "next/image";
+import {
+  Center,
+  Flex,
+  HStack,
+  Icon,
+  Input,
+  Text,
+  Drawer,
+  useDisclosure,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerHeader,
+  DrawerBody,
+} from "@chakra-ui/react";
 import React from "react";
 import {
   IoNotificationsOutline,
@@ -11,18 +23,32 @@ import {
 import AvatarMenuBox from "./AvatarMenuBox";
 
 const Navbar = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Flex
       w={"100%"}
-      h={"62px"}
+      h={"50px"}
       bg={"white"}
       px={"52px"}
       justifyContent={"space-between"}
     >
       {/* Left Part of Navbar */}
       <HStack gap={"52px"}>
-        <Icon as={IoReorderThreeOutline} cursor={"pointer"} boxSize={"20px"} />
-
+        <Icon
+          as={IoReorderThreeOutline}
+          cursor={"pointer"}
+          boxSize={"20px"}
+          onClick={onOpen}
+        />
+        <Drawer placement="left" onClose={onClose} isOpen={isOpen}>
+          <DrawerOverlay />
+          <DrawerContent>
+            <DrawerHeader borderBottomWidth="1px">Hamburger Menu</DrawerHeader>
+            <DrawerBody>
+              <p>Provides options for users to switch modules –</p>
+            </DrawerBody>
+          </DrawerContent>
+        </Drawer>
         <HStack>
           <Icon
             as={IoSearchSharp}
@@ -53,7 +79,7 @@ const Navbar = () => {
           color={"gray.600"}
           cursor={"pointer"}
         />
-     <AvatarMenuBox/>
+        <AvatarMenuBox />
       </HStack>
     </Flex>
   );
