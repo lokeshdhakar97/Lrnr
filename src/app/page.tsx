@@ -1,20 +1,13 @@
-"use client";
 import { Metadata } from "next";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import Home from "./Home";
 
 export const metadata: Metadata = {
   title: "Home",
   description: "Home page",
 };
 
-const Home = () => {
-  const router = useRouter();
-  useEffect(() => {
-    router.push("/editor/wysiwyg-editor?data=WYSIWYG%20Editor");
-  }, []);
-
-  return <div>Lrnr Assignment</div>;
+const HomePage = () => {
+  return <Home />;
 };
 
-export default Home;
+export default HomePage;
