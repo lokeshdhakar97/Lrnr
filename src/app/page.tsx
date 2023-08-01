@@ -1,6 +1,5 @@
 "use client";
 import { Metadata } from "next";
-import EditorPage from "./EditorPage";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
@@ -12,7 +11,7 @@ export const metadata: Metadata = {
 const Home = () => {
   const router = useRouter();
   useEffect(() => {
-    router.push("/editor");
+    router.push("/editor/wysiwyg-editor?data=WYSIWYG%20Editor");
   }, []);
 
   return <div>Lrnr Assignment</div>;
