@@ -7,9 +7,10 @@ import {
   IoAddSharp,
   IoDuplicateSharp,
 } from "react-icons/io5";
+import Link from "next/link";
 
 const SidebarItems = ({ data }: any) => {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(true);
   const [onHover, setOnHover] = React.useState(false);
   const onClickHandler = () => {
     setIsOpen(!isOpen);
@@ -30,12 +31,22 @@ const SidebarItems = ({ data }: any) => {
         spacing={0}
         onMouseOver={() => setOnHover(true)}
         onMouseOut={() => setOnHover(false)}
+        _hover={{ bg: "gray.200" }}
+        py={"4px"}
+        px={"18px"}
       >
         <HStack onClick={onClickHandler}>
           {data.type === "collection" && (
             <Icon as={isOpen ? IoChevronDownSharp : IoChevronForwardSharp} />
           )}
-          <Text fontSize="14px">{data.title}</Text>
+
+          {data.type === "item" ? (
+            <Link href={data.href}>
+              <Text fontSize="14px">{data.title}</Text>
+            </Link>
+          ) : (
+            <Text fontSize="14px">{data.title}</Text>
+          )}
         </HStack>
         <HStack gap={"10px"}>
           {data.type === "collection" && onHover && (
@@ -49,7 +60,7 @@ const SidebarItems = ({ data }: any) => {
       </HStack>
 
       {isOpen && (
-        <VStack alignItems={"start"} pl={"25px"} width={"100%"} spacing={0}>
+        <VStack alignItems={"start"} pl={"20px"} width={"100%"} spacing={0}>
           {data.childrens?.map((item: any, index: number) => {
             return <SidebarItems key={index} data={item} />;
           })}
