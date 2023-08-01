@@ -2,41 +2,60 @@ const sidebarData = [
   {
     title: "collection.1.1",
     type: "collection",
-    id: 1,
     childrens: [
       {
-        title: "Home",
-        type: "item",
-        id: 2,
-      },
-      {
-        title: "About",
-        type: "item",
-        id: 3,
-      },
-      {
-        title: "Contact",
+        title: "collection.1.1.1",
         type: "collection",
-        id: 4,
         childrens: [
           {
-            title: "Facebook",
+            title: "Content Page 1.1.1.1",
             type: "item",
-            id: 5,
+            href: "/",
           },
           {
-            title: "Twitter",
+            title: "Quiz",
             type: "item",
-            id: 6,
+            href: "/quiz",
           },
           {
-            title: "Instagram",
+            title: "Videos",
             type: "item",
-            id: 7,
+            href: "/videos",
+          },
+          {
+            title: "WYSIWYG Editor",
+            type: "item",
+            href: "/videos",
           },
         ],
       },
+      {
+        title: "collection.1.2",
+        type: "collection",
+        childrens: [],
+      },
     ],
+  },
+  {
+    title: "collection.2.",
+    type: "collection",
+    childrens: [
+      {
+        title: "collection.2.1",
+        type: "collection",
+        childrens: [],
+      },
+    ],
+  },
+  {
+    title: "collection.3.",
+    type: "collection",
+    childrens: [],
+  },
+  {
+    title: "collection.4.",
+    type: "collection",
+    childrens: [],
   },
 ];
 
