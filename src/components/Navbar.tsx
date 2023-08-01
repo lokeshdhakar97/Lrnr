@@ -27,9 +27,11 @@ const Navbar = () => {
   return (
     <Flex
       w={"100%"}
+      zIndex={"99"}
       h={"50px"}
       bg={"white"}
       px={"52px"}
+      position={"relative"}
       justifyContent={"space-between"}
     >
       {/* Left Part of Navbar */}
