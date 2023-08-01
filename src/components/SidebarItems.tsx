@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { HStack, Icon, Text, VStack } from "@chakra-ui/react";
 import {
@@ -8,12 +9,18 @@ import {
   IoDuplicateSharp,
 } from "react-icons/io5";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const SidebarItems = ({ data }: any) => {
   const [isOpen, setIsOpen] = React.useState(true);
   const [onHover, setOnHover] = React.useState(false);
+  const pathname = usePathname();
+
   const onClickHandler = () => {
     setIsOpen(!isOpen);
+  };
+  const handleOnClick = (e: any) => {
+    e.target.style.borderLeft = "4px solid orange";
   };
 
   return (
@@ -32,8 +39,11 @@ const SidebarItems = ({ data }: any) => {
         onMouseOver={() => setOnHover(true)}
         onMouseOut={() => setOnHover(false)}
         _hover={{ bg: "gray.200" }}
+        bg={pathname === data.href ? "gray.200" : "transparent"}
+        borderLeft={pathname === data.href ? "4px solid orange" : "none"}
         py={"4px"}
         px={"18px"}
+        onClick={(e) => handleOnClick}
       >
         <HStack onClick={onClickHandler}>
           {data.type === "collection" && (

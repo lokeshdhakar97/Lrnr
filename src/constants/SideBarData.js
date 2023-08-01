@@ -10,22 +10,22 @@ const sidebarData = [
           {
             title: "Content Page 1.1.1.1",
             type: "item",
-            href: "/",
+            href: "/editor/content-page?data=Content%20Page",
           },
           {
             title: "Quiz",
             type: "item",
-            href: "/quiz",
+            href: "/editor/quiz?data=Quiz",
           },
           {
             title: "Videos",
             type: "item",
-            href: "/videos",
+            href: "/editor/videos?data=Videos",
           },
           {
             title: "WYSIWYG Editor",
             type: "item",
-            href: "/videos",
+            href: "/editor/wysiwyg-editor?data=WYSIWYG%20Editor",
           },
         ],
       },
