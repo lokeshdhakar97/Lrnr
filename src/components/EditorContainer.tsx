@@ -45,7 +45,7 @@ const EditorContainer = () => {
         w={"full"}
         maxH={"calc(100vh - 90px)"}
         h={"100%"}
-        overflow={"scroll"}
+        overflowY={"scroll"}
         px={"52px"}
         py={"32px"}
         position={"relative"}
