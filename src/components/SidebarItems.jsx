@@ -13,13 +13,23 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const SidebarItems = ({ data }) => {
+const SidebarItems = ({ data, onAddItem }) => {
   const [isOpen, setIsOpen] = React.useState(true);
   const [onHover, setOnHover] = React.useState(false);
   const pathname = usePathname();
 
   const onClickHandler = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleAddItem = () => {
+    const newItem = {
+      title: "New Item",
+      type: "item",
+      id: uuidv4(),
+      href: "/editor/new-item",
+    };
+    onAddItem(newItem, data.id);
   };
 
   return (
@@ -59,7 +69,7 @@ const SidebarItems = ({ data }) => {
         <HStack gap={"10px"}>
           {data.type === "collection" && onHover && (
             <HStack gap={"12px"}>
-              <Icon as={AddFileIcon} />
+              <Icon as={AddFileIcon} onClick={handleAddItem} />
               <Icon as={AddCollections} />
               <Icon as={IoTrashOutline} />
             </HStack>
@@ -70,7 +80,9 @@ const SidebarItems = ({ data }) => {
       {isOpen && (
         <VStack alignItems={"start"} pl={"20px"} width={"100%"} spacing={0}>
           {data.childrens?.map((item, index) => {
-            return <SidebarItems key={index} data={item} />;
+            return (
+              <SidebarItems key={index} data={item} onAddItem={onAddItem} />
+            );
           })}
         </VStack>
       )}
@@ -145,10 +157,54 @@ const DirStructure = () => {
     },
   ]);
 
+  const handleAddItem = (newItem, parentCollectionId) => {
+    setFiles((prevFiles) => {
+      // Recursive function to find the parent collection in the state.
+      const findParentCollection = (items) => {
+        for (const item of items) {
+          if (item.id === parentCollectionId) {
+            return item;
+          } else if (item.childrens?.length > 0) {
+            const found = findParentCollection(item.childrens);
+            if (found) return found;
+          }
+        }
+        return null;
+      };
+
+      // Find the parent collection in the state.
+      const parentCollection = findParentCollection(prevFiles);
+
+      if (parentCollection) {
+        // If the parent collection is found, add the new item to its children.
+        parentCollection.childrens.push(newItem);
+        // Create a new copy of the state to trigger the update.
+        return [...prevFiles];
+      }
+
+      // If the parent collection is not found, check all top-level collections.
+      // This is needed when the parentCollectionId is a nested collection's ID.
+      for (const topLevelItem of prevFiles) {
+        if (topLevelItem.childrens?.length > 0) {
+          const found = findParentCollection(topLevelItem.childrens);
+          if (found) {
+            found.childrens.push(newItem);
+            return [...prevFiles];
+          }
+        }
+      }
+
+      // If the parent collection is not found, return the previous state as is.
+      return prevFiles;
+    });
+  };
+
   return (
     <>
       {files.map((item, index) => {
-        return <SidebarItems key={index} data={item} />;
+        return (
+          <SidebarItems key={index} data={item} onAddItem={handleAddItem} />
+        );
       })}
     </>
   );
