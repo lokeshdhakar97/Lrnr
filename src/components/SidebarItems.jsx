@@ -13,7 +13,7 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const SidebarItems = ({ data, onAddItem, onAddCollection }) => {
+const SidebarItems = ({ data, onAddItem, onAddCollection, onDeleteItem }) => {
   const [isOpen, setIsOpen] = React.useState(true);
   const [onHover, setOnHover] = React.useState(false);
   const pathname = usePathname();
@@ -34,14 +34,17 @@ const SidebarItems = ({ data, onAddItem, onAddCollection }) => {
 
   const handleAddCollection = () => {
     const newCollection = {
-      title: "New Collection", // Set the default title for the new collection
+      title: "New Collection",
       type: "collection",
       id: uuidv4(),
-      childrens: [], // Empty array for the new collection's children
+      childrens: [],
     };
 
-    // Call the onAddCollection function to update the state with the new collection.
-    onAddCollection(newCollection, data.id); // Pass the new collection and the id of the current parent collection.
+    onAddCollection(newCollection, data.id);
+  };
+
+  const handleDeleteItem = () => {
+    onDeleteItem(data.id);
   };
 
   return (
@@ -83,9 +86,9 @@ const SidebarItems = ({ data, onAddItem, onAddCollection }) => {
             <HStack gap={"12px"}>
               <Icon as={AddFileIcon} onClick={handleAddItem} />
               <Icon as={AddCollections} onClick={handleAddCollection} />
-              <Icon as={IoTrashOutline} />
             </HStack>
           )}
+          {onHover && <Icon as={IoTrashOutline} onClick={handleDeleteItem} />}
           {data.type === "collection" && <Icon as={IoCopyOutline} />}
         </HStack>
       </HStack>
@@ -98,6 +101,7 @@ const SidebarItems = ({ data, onAddItem, onAddCollection }) => {
                 data={item}
                 onAddItem={onAddItem}
                 onAddCollection={onAddCollection}
+                onDeleteItem={onDeleteItem}
               />
             );
           })}
@@ -258,6 +262,39 @@ const DirStructure = () => {
     });
   };
 
+  const handleDeleteItem = (itemId) => {
+    setFiles((prevFiles) => {
+      // Recursive function to find the item in the state and remove it.
+      const removeItem = (items) => {
+        for (let i = 0; i < items.length; i++) {
+          const item = items[i];
+          if (item.id === itemId) {
+            // If the item is found, remove it from the array.
+            items.splice(i, 1);
+            return true;
+          } else if (item.childrens?.length > 0) {
+            const removed = removeItem(item.childrens);
+            if (removed) return true;
+          }
+        }
+        return false;
+      };
+
+      // Create a new copy of the state to avoid mutating the original state.
+      const updatedFiles = [...prevFiles];
+
+      // Call the removeItem function to find and remove the item.
+      const removed = removeItem(updatedFiles);
+
+      if (removed) {
+        return updatedFiles;
+      }
+
+      // If the item is not found, return the previous state as is.
+      return prevFiles;
+    });
+  };
+
   return (
     <>
       {files.map((item, index) => {
@@ -267,6 +304,7 @@ const DirStructure = () => {
             data={item}
             onAddItem={handleAddItem}
             onAddCollection={handleAddCollection}
+            onDeleteItem={handleDeleteItem}
           />
         );
       })}
