@@ -48,10 +48,10 @@ const TreePannel = () => {
           harum quaerat sunt rerum sint, dignissimos vel tenetur.
         </TabPanel>
         <TabPanel h={"100%"}>
-          <p>two!</p>
+          <p>More Tabs Will Take Place!</p>
         </TabPanel>
         <TabPanel h={"100%"}>
-          <p>three!</p>
+          <p>More Tabs Will Take Place!</p>
         </TabPanel>
       </TabPanels>
     </Tabs>
