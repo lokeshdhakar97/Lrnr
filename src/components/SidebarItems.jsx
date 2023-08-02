@@ -23,18 +23,21 @@ const SidebarItems = ({ data, onAddItem, onAddCollection, onDeleteItem }) => {
   };
 
   const handleAddItem = () => {
+    const promptTitle = prompt("Enter the name of item(file): ");
     const newItem = {
-      title: "New Item",
+      title: promptTitle,
       type: "item",
       id: uuidv4(),
-      href: "/editor/new-item",
+      href: `/editor/${promptTitle}?data=${promptTitle}`,
     };
     onAddItem(newItem, data.id);
   };
 
   const handleAddCollection = () => {
+    const promptTitle = prompt("Enter the name of collecton(folder): ");
+
     const newCollection = {
-      title: "New Collection",
+      title: promptTitle,
       type: "collection",
       id: uuidv4(),
       childrens: [],
