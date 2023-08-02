@@ -3,19 +3,22 @@ import { Box, HStack, Center, Text } from "@chakra-ui/react";
 import React from "react";
 // import Editor from "./Editor";
 import { useState } from "react";
-
+import { useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
 
 const DynamicEditor = dynamic(() => import("./Editor"), { ssr: false });
 
 const EditorContainer = () => {
+  const searchParams = useSearchParams();
+  const search = searchParams.get("data");
+
   const [data, setData] = useState({
     time: Date.now(),
     blocks: [
       {
         type: "header",
         data: {
-          text: "WYSIWYG Editor",
+          text: search ? search : "Header",
           level: 2,
         },
       },
@@ -45,7 +48,7 @@ const EditorContainer = () => {
         w={"full"}
         maxH={"calc(100vh - 90px)"}
         h={"100%"}
-        overflow={"scroll"}
+        overflowY={"scroll"}
         px={"52px"}
         py={"32px"}
         position={"relative"}

@@ -2,7 +2,9 @@
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { VStack, Center, Heading, Divider } from "@chakra-ui/react";
+
 import Link from "next/link";
+
 
 const Home = () => {
   const router = useRouter();
@@ -10,6 +12,7 @@ const Home = () => {
     router.push("/editor/wysiwyg-editor?data=WYSIWYG%20Editor");
   }, []);
   return (
+
     <>
       <Center h={"100vh"}>
         <VStack>
@@ -24,6 +27,7 @@ const Home = () => {
       </Center>
     </>
   );
+
 };
 
 export default Home;

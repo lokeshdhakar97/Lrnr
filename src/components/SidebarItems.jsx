@@ -202,6 +202,13 @@ const DirStructure = () => {
         return [...prevFiles];
       }
 
+      const parentCollection = findParentCollection(prevFiles);
+
+      if (parentCollection) {
+        parentCollection.childrens.push(newItem);
+        return [...prevFiles];
+      }
+
       for (const topLevelItem of prevFiles) {
         if (topLevelItem.childrens?.length > 0) {
           const found = findParentCollection(topLevelItem.childrens);
@@ -237,6 +244,14 @@ const DirStructure = () => {
         return [...prevFiles];
       }
 
+      const parentCollection = findParentCollection(prevFiles);
+
+      if (parentCollection) {
+        parentCollection.childrens.push(newCollection);
+        return [...prevFiles];
+      }
+
+ 
       for (const topLevelItem of prevFiles) {
         if (topLevelItem.childrens?.length > 0) {
           const found = findParentCollection(topLevelItem.childrens);
@@ -247,16 +262,19 @@ const DirStructure = () => {
         }
       }
 
+
       return [...prevFiles, newCollection];
     });
   };
 
   const handleDeleteItem = (itemId) => {
     setFiles((prevFiles) => {
+
       const removeItem = (items) => {
         for (let i = 0; i < items.length; i++) {
           const item = items[i];
           if (item.id === itemId) {
+
             items.splice(i, 1);
             return true;
           } else if (item.childrens?.length > 0) {
@@ -269,11 +287,15 @@ const DirStructure = () => {
 
       const updatedFiles = [...prevFiles];
 
+
+      const updatedFiles = [...prevFiles];
+
       const removed = removeItem(updatedFiles);
 
       if (removed) {
         return updatedFiles;
       }
+
 
       return prevFiles;
     });

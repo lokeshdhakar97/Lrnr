@@ -1,13 +1,13 @@
 import { Metadata } from "next";
-import EditorPage from "./EditorPage";
+import Home from "./Home";
 
 export const metadata: Metadata = {
   title: "Home",
   description: "Home page",
 };
 
-const Home = () => {
-  return <EditorPage />;
+const HomePage = () => {
+  return <Home />;
 };
 
-export default Home;
+export default HomePage;
