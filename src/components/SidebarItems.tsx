@@ -13,10 +13,9 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import sidebarData from "@/constants/SideBarData";
-import findItemById from "@/helper/itemFinderById";
+import { findItemById, removeItemWithId } from "@/helper/itemFinderById";
 
-const SidebarItems = ({ data}: any) => {
-  const [treeData, setTreeData] = React.useState<any>(sidebarData);
+const SidebarItems = ({ data, setTreeData }: any) => {
   const [isOpen, setIsOpen] = React.useState(true);
   const [onHover, setOnHover] = React.useState(false);
   const pathname = usePathname();
@@ -48,6 +47,12 @@ const SidebarItems = ({ data}: any) => {
     };
     const item = findItemById(sidebarData, id);
     item?.childrens?.push(newItem);
+  };
+
+  const removeObject = (id: any) => {
+    const data = removeItemWithId(sidebarData, id);
+    console.log("data", data);
+    setTreeData(data);
   };
 
   return (
@@ -93,7 +98,7 @@ const SidebarItems = ({ data}: any) => {
                 as={IoDuplicateSharp}
                 onClick={() => handleAddCollection(data.id)}
               />
-              <Icon as={IoTrashOutline} />
+              <Icon as={IoTrashOutline} onClick={() => removeObject(data.id)} />
             </HStack>
           )}
           {data.type === "collection" && <Icon as={IoCopyOutline} />}

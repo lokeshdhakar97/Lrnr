@@ -12,4 +12,49 @@ const findItemById = (items, id) => {
   return null;
 };
 
-export default findItemById;
+const removeObjectById = (data, idToRemove) => {
+  for (let i = 0; i < data.length; i++) {
+    const currentItem = data[i];
+
+    if (currentItem.id === idToRemove) {
+      data.splice(i, 1);
+      return true;
+    }
+
+    if (currentItem.childrens && currentItem.childrens.length > 0) {
+      const childRemoved = removeObjectById(currentItem.childrens, idToRemove);
+
+      if (childRemoved) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+};
+
+const removeItemWithId = (data, idToRemove) => {
+  for (let i = 0; i < data.length; i++) {
+    const currentItem = data[i];
+
+    if (currentItem.id === idToRemove) {
+      data.splice(i, 1);
+      return data;
+    }
+
+    if (currentItem.childrens && currentItem.childrens.length > 0) {
+      const childRemoved = removeItemWithId(currentItem.childrens, idToRemove);
+
+      if (childRemoved) {
+        if (currentItem.childrens.length === 0) {
+          delete currentItem.childrens;
+        }
+        return data;
+      }
+    }
+  }
+
+  return false;
+};
+
+export { findItemById, removeObjectById, removeItemWithId };
