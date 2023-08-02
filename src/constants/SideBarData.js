@@ -35,12 +35,6 @@ const sidebarData = [
           },
         ],
       },
-      {
-        title: "collection.1.2",
-        type: "collection",
-        id: "2987",
-        childrens: [],
-      },
     ],
   },
   {
