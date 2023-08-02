@@ -26,7 +26,7 @@ const TreePannel = () => {
       <TabPanels w={"full"} maxH={"calc(100vh - 90px)"} h={"100%"}>
         <TabPanel h={"100%"} bg={"gray.100"} overflowY={"scroll"}>
           {sidebarData.map((item, index) => {
-            return <SidebarItems key={index} data={item}/>;
+            return <SidebarItems key={index} data={item} />;
           })}
         </TabPanel>
         <TabPanel h={"100%"}>
