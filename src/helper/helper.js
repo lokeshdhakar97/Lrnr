@@ -1,4 +1,7 @@
 const findItemById = (items, id) => {
+  if (items === undefined || items === null || items.length === 0) {
+    return null;
+  }
   for (const item of items) {
     if (item.id === id) {
       return item;
@@ -10,27 +13,6 @@ const findItemById = (items, id) => {
     }
   }
   return null;
-};
-
-const removeObjectById = (data, idToRemove) => {
-  for (let i = 0; i < data.length; i++) {
-    const currentItem = data[i];
-
-    if (currentItem.id === idToRemove) {
-      data.splice(i, 1);
-      return true;
-    }
-
-    if (currentItem.childrens && currentItem.childrens.length > 0) {
-      const childRemoved = removeObjectById(currentItem.childrens, idToRemove);
-
-      if (childRemoved) {
-        return true;
-      }
-    }
-  }
-
-  return false;
 };
 
 const removeItemWithId = (data, idToRemove) => {
@@ -57,4 +39,4 @@ const removeItemWithId = (data, idToRemove) => {
   return false;
 };
 
-export { findItemById, removeObjectById, removeItemWithId };
+export { findItemById, removeItemWithId };
