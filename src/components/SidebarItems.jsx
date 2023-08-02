@@ -183,7 +183,6 @@ const DirStructure = () => {
 
   const handleAddItem = (newItem, parentCollectionId) => {
     setFiles((prevFiles) => {
-      // Recursive function to find the parent collection in the state.
       const findParentCollection = (items) => {
         for (const item of items) {
           if (item.id === parentCollectionId) {
@@ -196,18 +195,13 @@ const DirStructure = () => {
         return null;
       };
 
-      // Find the parent collection in the state.
       const parentCollection = findParentCollection(prevFiles);
 
       if (parentCollection) {
-        // If the parent collection is found, add the new item to its children.
         parentCollection.childrens.push(newItem);
-        // Create a new copy of the state to trigger the update.
         return [...prevFiles];
       }
 
-      // If the parent collection is not found, check all top-level collections.
-      // This is needed when the parentCollectionId is a nested collection's ID.
       for (const topLevelItem of prevFiles) {
         if (topLevelItem.childrens?.length > 0) {
           const found = findParentCollection(topLevelItem.childrens);
@@ -218,14 +212,12 @@ const DirStructure = () => {
         }
       }
 
-      // If the parent collection is not found, return the previous state as is.
       return prevFiles;
     });
   };
 
   const handleAddCollection = (newCollection, parentCollectionId) => {
     setFiles((prevFiles) => {
-      // Recursive function to find the parent collection in the state.
       const findParentCollection = (items) => {
         for (const item of items) {
           if (item.id === parentCollectionId) {
@@ -238,18 +230,13 @@ const DirStructure = () => {
         return null;
       };
 
-      // Find the parent collection in the state.
       const parentCollection = findParentCollection(prevFiles);
 
       if (parentCollection) {
-        // If the parent collection is found, add the new collection to its children.
         parentCollection.childrens.push(newCollection);
-        // Create a new copy of the state to trigger the update.
         return [...prevFiles];
       }
 
-      // If the parent collection is not found, check all top-level collections.
-      // This is needed when the parentCollectionId is a nested collection's ID.
       for (const topLevelItem of prevFiles) {
         if (topLevelItem.childrens?.length > 0) {
           const found = findParentCollection(topLevelItem.childrens);
@@ -260,19 +247,16 @@ const DirStructure = () => {
         }
       }
 
-      // If the parent collection is still not found, add the new collection as a top-level item.
       return [...prevFiles, newCollection];
     });
   };
 
   const handleDeleteItem = (itemId) => {
     setFiles((prevFiles) => {
-      // Recursive function to find the item in the state and remove it.
       const removeItem = (items) => {
         for (let i = 0; i < items.length; i++) {
           const item = items[i];
           if (item.id === itemId) {
-            // If the item is found, remove it from the array.
             items.splice(i, 1);
             return true;
           } else if (item.childrens?.length > 0) {
@@ -283,17 +267,14 @@ const DirStructure = () => {
         return false;
       };
 
-      // Create a new copy of the state to avoid mutating the original state.
       const updatedFiles = [...prevFiles];
 
-      // Call the removeItem function to find and remove the item.
       const removed = removeItem(updatedFiles);
 
       if (removed) {
         return updatedFiles;
       }
 
-      // If the item is not found, return the previous state as is.
       return prevFiles;
     });
   };

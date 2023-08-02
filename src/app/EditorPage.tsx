@@ -11,7 +11,7 @@ const EditorPage = () => {
       <Navbar />
       <Flex width={"100%"} h={"calc(100vh - 50px)"}>
         {/* Left Part of Editor Page */}
-        <Box w={"30%"} pl={"42px"} h={"100%"}>
+        <Box w={"30%"} pl={"42px"} h={"100%"} overflowX={'scroll'}>
           <TreePannel />
         </Box>
 

@@ -1,7 +1,6 @@
 "use client";
 import { Box, HStack, Center, Text } from "@chakra-ui/react";
 import React from "react";
-// import Editor from "./Editor";
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import dynamic from "next/dynamic";
