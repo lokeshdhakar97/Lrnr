@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import { v4 as uuidv4 } from "uuid";
 import { HStack, Icon, Text, VStack } from "@chakra-ui/react";
 import {
   IoChevronDownSharp,
@@ -7,11 +8,15 @@ import {
   IoCopyOutline,
   IoAddSharp,
   IoDuplicateSharp,
+  IoTrashOutline,
 } from "react-icons/io5";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import sidebarData from "@/constants/SideBarData";
+import findItemById from "@/helper/itemFinderById";
 
-const SidebarItems = ({ data }: any) => {
+const SidebarItems = ({ data}: any) => {
+  const [treeData, setTreeData] = React.useState<any>(sidebarData);
   const [isOpen, setIsOpen] = React.useState(true);
   const [onHover, setOnHover] = React.useState(false);
   const pathname = usePathname();
@@ -21,6 +26,28 @@ const SidebarItems = ({ data }: any) => {
   };
   const handleOnClick = (e: any) => {
     e.target.style.borderLeft = "4px solid orange";
+  };
+
+  const handleAddCollection = (id: any) => {
+    const newCollection = {
+      id: uuidv4(),
+      title: "New Collection",
+      type: "collection",
+      childrens: [],
+    };
+    const item = findItemById(sidebarData, id);
+    item?.childrens?.push(newCollection);
+  };
+
+  const handleAddItem = (id: any) => {
+    const newItem = {
+      id: uuidv4(),
+      title: "Item",
+      type: "item",
+      href: "/item",
+    };
+    const item = findItemById(sidebarData, id);
+    item?.childrens?.push(newItem);
   };
 
   return (
@@ -61,8 +88,12 @@ const SidebarItems = ({ data }: any) => {
         <HStack gap={"10px"}>
           {data.type === "collection" && onHover && (
             <HStack gap={"12px"}>
-              <Icon as={IoAddSharp} />
-              <Icon as={IoDuplicateSharp} />
+              <Icon as={IoAddSharp} onClick={() => handleAddItem(data.id)} />
+              <Icon
+                as={IoDuplicateSharp}
+                onClick={() => handleAddCollection(data.id)}
+              />
+              <Icon as={IoTrashOutline} />
             </HStack>
           )}
           {data.type === "collection" && <Icon as={IoCopyOutline} />}
