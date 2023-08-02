@@ -6,53 +6,20 @@ import {
   IoChevronDownSharp,
   IoChevronForwardSharp,
   IoCopyOutline,
-  IoAddSharp,
-  IoDuplicateSharp,
+  IoAddSharp as AddFileIcon,
+  IoDuplicateSharp as AddCollections,
   IoTrashOutline,
 } from "react-icons/io5";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import sidebarData from "@/constants/SideBarData";
-import { findItemById, removeItemWithId } from "@/helper/itemFinderById";
 
-const SidebarItems = ({ data, setTreeData }: any) => {
+const SidebarItems = ({ data }) => {
   const [isOpen, setIsOpen] = React.useState(true);
   const [onHover, setOnHover] = React.useState(false);
   const pathname = usePathname();
 
   const onClickHandler = () => {
     setIsOpen(!isOpen);
-  };
-  const handleOnClick = (e: any) => {
-    e.target.style.borderLeft = "4px solid orange";
-  };
-
-  const handleAddCollection = (id: any) => {
-    const newCollection = {
-      id: uuidv4(),
-      title: "New Collection",
-      type: "collection",
-      childrens: [],
-    };
-    const item = findItemById(sidebarData, id);
-    item?.childrens?.push(newCollection);
-  };
-
-  const handleAddItem = (id: any) => {
-    const newItem = {
-      id: uuidv4(),
-      title: "Item",
-      type: "item",
-      href: "/item",
-    };
-    const item = findItemById(sidebarData, id);
-    item?.childrens?.push(newItem);
-  };
-
-  const removeObject = (id: any) => {
-    const data = removeItemWithId(sidebarData, id);
-    console.log("data", data);
-    setTreeData(data);
   };
 
   return (
@@ -75,7 +42,6 @@ const SidebarItems = ({ data, setTreeData }: any) => {
         borderLeft={pathname === data.href ? "4px solid orange" : "none"}
         py={"4px"}
         px={"18px"}
-        onClick={(e) => handleOnClick}
       >
         <HStack onClick={onClickHandler}>
           {data.type === "collection" && (
@@ -93,21 +59,17 @@ const SidebarItems = ({ data, setTreeData }: any) => {
         <HStack gap={"10px"}>
           {data.type === "collection" && onHover && (
             <HStack gap={"12px"}>
-              <Icon as={IoAddSharp} onClick={() => handleAddItem(data.id)} />
-              <Icon
-                as={IoDuplicateSharp}
-                onClick={() => handleAddCollection(data.id)}
-              />
-              <Icon as={IoTrashOutline} onClick={() => removeObject(data.id)} />
+              <Icon as={AddFileIcon} />
+              <Icon as={AddCollections} />
+              <Icon as={IoTrashOutline} />
             </HStack>
           )}
           {data.type === "collection" && <Icon as={IoCopyOutline} />}
         </HStack>
       </HStack>
-
       {isOpen && (
         <VStack alignItems={"start"} pl={"20px"} width={"100%"} spacing={0}>
-          {data.childrens?.map((item: any, index: number) => {
+          {data.childrens?.map((item, index) => {
             return <SidebarItems key={index} data={item} />;
           })}
         </VStack>
@@ -116,4 +78,80 @@ const SidebarItems = ({ data, setTreeData }: any) => {
   );
 };
 
-export default SidebarItems;
+const DirStructure = () => {
+  const [files, setFiles] = React.useState([
+    {
+      title: "collection.1.1",
+      type: "collection",
+      id: "1343",
+      childrens: [
+        {
+          title: "collection.1.1.1",
+          type: "collection",
+          id: "22345",
+          childrens: [
+            {
+              title: "Content Page 1.1.1.1",
+              type: "item",
+              id: "2765",
+              href: "/editor/content-page?data=Content%20Page",
+            },
+            {
+              title: "Quiz",
+              type: "item",
+              id: "2987",
+              href: "/editor/quiz?data=Quiz",
+            },
+            {
+              title: "Videos",
+              type: "item",
+              id: "2543",
+              href: "/editor/videos?data=Videos",
+            },
+            {
+              title: "WYSIWYG Editor",
+              type: "item",
+              id: "12342",
+              href: "/editor/wysiwyg-editor?data=WYSIWYG%20Editor",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      title: "collection.2.",
+      type: "collection",
+      id: "22",
+      childrens: [
+        {
+          title: "collection.2.1",
+          type: "collection",
+          id: "6542",
+          childrens: [],
+        },
+      ],
+    },
+    {
+      title: "collection.3.",
+      type: "collection",
+      id: "2342",
+      childrens: [],
+    },
+    {
+      title: "collection.4.",
+      type: "collection",
+      id: "23452",
+      childrens: [],
+    },
+  ]);
+
+  return (
+    <>
+      {files.map((item, index) => {
+        return <SidebarItems key={index} data={item} />;
+      })}
+    </>
+  );
+};
+
+export default DirStructure;
